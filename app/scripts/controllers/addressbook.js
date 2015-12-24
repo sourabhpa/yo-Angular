@@ -8,17 +8,20 @@
  * Controller of the yoAngularApp
  */
 angular.module('yoAngularApp')
-  .controller('AddressbookCtrl', function ($scope, $http, $stateParams) {
+  .controller('AddressbookCtrl', function ($scope, $http, $stateParams, $rootScope) {
     console.log("Inside AdressbookCtrl");
 
-    console.log("$scope.people "+ $scope.people);
+    console.log("$scope.people "+ $rootScope.people);
 
-    if($scope.people == undefined || $scope.people == ""){
+    if($rootScope.people == undefined || $rootScope.people == ""){
       $http.jsonp('http://www.filltext.com/?rows=30&state={usState|abbr}&address={streetAddress}&zip={zip}&tel={phone|format}&id={index}&fname={firstName}&lname={lastName}&city={city}&callback=JSON_CALLBACK')
         .success(function (data) {
           console.log(data);
-          $scope.people = data;
-          $scope.person = $scope.people[$stateParams.id];
+          $rootScope.people = data;
+        //  $scope.person = $rootScope.people[$stateParams.id];
         });
+    }
+    else{
+      $scope.person = $rootScope.people[$stateParams.id];
     }
   });
